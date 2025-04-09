@@ -1,0 +1,684 @@
+/* 现代UI优化方案 - 温暖中性配色与模块化设计 */
+
+/* 全局样式 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #F8F5F1; /* 浅米色背景 */
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* 应用容器 */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* 左侧面板 */
+.left-panel {
+    flex: 1;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+    background-color: #FFFAF0; /* 米色背景 */
+    box-shadow: inset -5px 0 15px rgba(209, 192, 165, 0.1);
+}
+
+/* 右侧面板 */
+.right-panel {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 25px;
+    height: 100%;
+    overflow-y: auto;
+    background-color: #FFFAF0; /* 米色背景，与卡片相同 */
+}
+
+/* 模块化容器样式 */
+.note-input-section, .extraction-section {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(209, 192, 165, 0.15);
+    margin-bottom: 25px;
+}
+
+/* 标题样式 */
+.note-input-section h2, .extraction-section h2 {
+    margin-bottom: 15px;
+    color: #786450; /* 温暖棕色 */
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.5px;
+}
+
+.note-input-section h2 i, .extraction-section h2 i {
+    margin-right: 10px;
+    color: #E67E22; /* 温暖橙色图标 */
+}
+
+/* 输入框样式 */
+#note-input {
+    width: 100%;
+    height: 200px;
+    padding: 15px;
+    border: 1px solid #E8E0D5; /* 浅棕色边框 */
+    border-radius: 8px;
+    resize: vertical;
+    font-family: inherit;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(209, 192, 165, 0.08);
+    transition: all 0.3s ease;
+}
+
+#note-input:focus {
+    border-color: #E67E22;
+    box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.2);
+    outline: none;
+}
+
+/* Tab导航样式 */
+.input-tabs {
+    display: flex;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #E8E0D5;
+}
+
+.tab-btn {
+    padding: 10px 18px;
+    cursor: pointer;
+    background-color: #F8F5F1;
+    border: 1px solid #E8E0D5;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    margin-right: 5px;
+    transition: all 0.3s;
+    color: #786450;
+    font-weight: 500;
+}
+
+.tab-btn:hover {
+    background-color: #F0EAE1;
+}
+
+.tab-btn.active {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #FFFFFF;
+    margin-bottom: -1px;
+    font-weight: 600;
+    color: #E67E22;
+}
+
+.tab-content {
+    display: none;
+    margin-bottom: 15px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* 网址输入框样式 */
+.url-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #E8E0D5;
+    border-radius: 8px;
+    font-family: inherit;
+    margin-bottom: 15px;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(209, 192, 165, 0.08);
+}
+
+.url-input:focus {
+    border-color: #E67E22;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.2);
+}
+
+/* 按钮样式 */
+.primary-btn {
+    background: linear-gradient(135deg, #F39C12, #E67E22);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 12px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(230, 126, 34, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.primary-btn:hover {
+    background: linear-gradient(135deg, #E67E22, #D35400);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(230, 126, 34, 0.4);
+}
+
+.primary-btn i {
+    margin-right: 8px;
+}
+
+.secondary-btn {
+    background-color: #F8F5F1;
+    color: #786450;
+    border: 1px solid #E8E0D5;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.secondary-btn:hover {
+    background-color: #F0EAE1;
+    border-color: #E67E22;
+}
+
+.secondary-btn i {
+    margin-right: 8px;
+    color: #E67E22;
+}
+
+/* 编辑内容区域样式 */
+.editable-content {
+    border: 1px solid #E8E0D5;
+    padding: 12px;
+    border-radius: 8px;
+    min-height: 45px;
+    background-color: white;
+    box-shadow: 0 2px 6px rgba(209, 192, 165, 0.08);
+    transition: all 0.3s ease;
+}
+
+.editable-content:focus {
+    border-color: #E67E22;
+    box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.2);
+    outline: none;
+}
+
+/* 要点项目样式 */
+#extracted-points {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.point-item {
+    background-color: white;
+    border: 1px solid #E8E0D5;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(209, 192, 165, 0.1);
+    transition: all 0.3s ease;
+}
+
+.point-item:hover {
+    box-shadow: 0 4px 12px rgba(209, 192, 165, 0.15);
+}
+
+.point-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.point-title {
+    font-weight: 600;
+    flex-grow: 1;
+    margin-right: 10px;
+    color: #786450;
+}
+
+.delete-point-btn {
+    background: linear-gradient(135deg, #E74C3C, #C0392B);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    transition: all 0.3s;
+    box-shadow: 0 2px 6px rgba(231, 76, 60, 0.3);
+}
+
+.delete-point-btn:hover {
+    background: linear-gradient(135deg, #C0392B, #A93226);
+    transform: scale(1.1);
+    box-shadow: 0 3px 8px rgba(231, 76, 60, 0.4);
+}
+
+/* 账号输入样式 */
+.account-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #E8E0D5;
+    border-radius: 8px;
+    font-family: inherit;
+    margin-bottom: 15px;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(209, 192, 165, 0.08);
+}
+
+.account-input:focus {
+    border-color: #E67E22;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.2);
+}
+
+/* 加载动画 */
+.loader {
+    border: 5px solid #F8F5F1;
+    border-top: 5px solid #E67E22;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1.5s linear infinite;
+    margin: 25px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 附加URL容器样式 */
+.additional-url-container {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid #E8E0D5;
+}
+
+.additional-url-container label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #786450;
+    font-weight: 500;
+}
+
+/* 卡片样式 */
+.card {
+    width: 500px;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    text-align: left;
+    background-color: #FFFAF0;
+    margin-top: 20px;
+}
+
+.card h2 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.card h3 {
+    color: #333;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+/* 修改核心观点的注释文字颜色 */
+.card p {
+    color: #696969;
+}
+
+/* 修改图标颜色 */
+.card i.ph {
+    color: #4361EE;
+}
+
+/* 修改关键洞见样式 */
+.highlight {
+    background-color: rgba(67, 97, 238, 0.1); /* #4361EE 的半透明背景 */
+    padding: 5px 8px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    display: inline-block;
+    color: #696969;
+    border-left: 3px solid #4361EE; /* 增加左侧框线 */
+}
+
+ul, ol {
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+/* 颜色选择器 */
+.color-selector {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.color-btn {
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.color-btn:hover {
+    transform: scale(1.2);
+}
+
+/* 工具类 */
+.hidden {
+    display: none;
+}
+
+/* Card container adjustments */
+.right-panel {
+    max-height: none !important;
+            overflow-y: visible !important;
+            height: auto !important;
+        }
+        
+        .card {
+            max-height: none !important;
+            overflow-y: visible !important;
+            height: auto !important;
+            margin-bottom: 40px !important;
+        }
+        
+        .app-container {
+            height: auto !important;
+            overflow: visible !important;
+        }
+
+/* 深色主题样式 - 使用!important确保优先级 */
+.card[style*="background-color: rgb(72, 86, 121)"],
+.card[style*="background-color: #485679"] {
+    color: white !important;
+}
+
+.card[style*="background-color: rgb(72, 86, 121)"] h2,
+.card[style*="background-color: #485679"] h2,
+.card[style*="background-color: rgb(72, 86, 121)"] h3,
+.card[style*="background-color: #485679"] h3 {
+    color: white !important;
+}
+
+/* 修改深色主题下核心观点的注释文字颜色 */
+.card[style*="background-color: rgb(72, 86, 121)"] p,
+.card[style*="background-color: #485679"] p {
+    color: #DCDCDC !important;
+}
+
+/* 修改深色主题下图标颜色 */
+.card[style*="background-color: rgb(72, 86, 121)"] i.ph,
+.card[style*="background-color: #485679"] i.ph {
+    color: #4361EE !important;
+}
+
+/* 修改深色主题下关键洞见样式 */
+.card[style*="background-color: rgb(72, 86, 121)"] .highlight,
+.card[style*="background-color: #485679"] .highlight {
+    background-color: rgba(67, 97, 238, 0.2) !important; /* #4361EE 的半透明背景 */
+    color: #DCDCDC !important;
+    border-radius: 3px !important;
+    padding: 5px 8px !important;
+    border-left: 3px solid #4361EE !important; /* 增加左侧框线 */
+}
+
+/* 页脚左侧样式重构 */
+.footer-left {
+    display: flex;
+    align-items: flex-start; /* 顶部对齐 */
+    margin-right: 20px; /* 减小右边距 */
+    max-width: 65%; /* 限制最大宽度 */
+}
+
+/* 账号头像样式 - 确保保持正方形 */
+.account-avatar {
+    min-width: 42px; /* 设置最小宽度确保不会被压缩 */
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0; /* 防止缩小 */
+    border-radius: 8px;
+    background: linear-gradient(135deg, #4361EE, #7209B7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 12px;
+}
+
+.account-avatar i {
+    font-size: 24px !important;
+    color: white !important;
+}
+
+/* 账号详情样式优化 */
+.account-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* 改为顶部对齐 */
+    overflow-wrap: break-word; /* 允许长文本换行 */
+    word-break: break-all; /* 确保长文本能够断行 */
+}
+
+.account-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 4px;
+    line-height: 1.2; /* 增加行高，优化多行显示 */
+    max-width: 100%; /* 确保文本不会溢出 */
+}
+
+.slogan {
+    font-size: 12px;
+    color: #696969;
+    margin-left: 0; /* 重置之前的左边距 */
+}
+
+/* 页脚右侧样式 */
+.footer-right {
+    display: flex;
+    align-items: flex-start; /* 顶部对齐 */
+    margin-right: 0; /* 移除右边距 */
+}
+
+.qrcode {
+    width: 80px;
+    height: 80px;
+    border-radius: 4px;
+    padding: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: none; /* 默认隐藏 */
+    background-color: white;
+    flex-shrink: 0; /* 防止被压缩 */
+}
+
+/* 二维码中图片样式 */
+.qrcode img {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+}
+
+/* 深色主题下的二维码样式 */
+.card[style*="background-color: #485679"] .qrcode {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* 深色主题下的页脚样式 */
+.card[style*="background-color: rgb(72, 86, 121)"] .card-footer,
+.card[style*="background-color: #485679"] .card-footer {
+    border-top: 1px solid rgba(255,255,255,0.2) !important;
+}
+
+.card[style*="background-color: rgb(72, 86, 121)"] #footer-account-name,
+.card[style*="background-color: #485679"] #footer-account-name {
+    color: white !important;
+}
+
+.card[style*="background-color: rgb(72, 86, 121)"] .slogan,
+.card[style*="background-color: #485679"] .slogan {
+    color: #DCDCDC !important;
+}
+
+/* 确保页脚在批注下方 */
+#global-annotations-container {
+    margin-bottom: 30px;
+}
+
+/* 深色主题下的账号头像 */
+.card[style*="background-color: #485679"] .account-avatar {
+    background: linear-gradient(135deg, #4361EE, #5D13E7);
+    box-shadow: 0 2px 8px rgba(67, 97, 238, 0.3);
+}
+
+/* 可编辑区域的占位符样式 */
+[contenteditable=true]:empty:before {
+    content: attr(placeholder);
+    color: #aaa;
+    font-style: italic;
+}
+
+/* 卡片页脚样式优化 */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* 确保顶部对齐 */
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+/* 页脚右侧样式 - 确保QR码顶部对齐 */
+.footer-right {
+    display: flex;
+    align-items: flex-start;
+}
+
+/* QR码容器样式修复 */
+.qrcode {
+    margin-top: 0;
+    align-self: flex-start;
+}
+
+/* 自定义页脚名称输入区域样式优化 */
+.extraction-item.account-item {
+    margin-bottom: 20px;
+    padding: 12px 15px;
+    background-color: #FFF8EE;
+    border-radius: 8px;
+    border-left: 3px solid #E67E22;
+}
+
+.extraction-item.account-item label {
+    color: #E67E22;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+.extraction-item.account-item label i {
+    margin-right: 8px;
+    color: #E67E22;
+}
+
+/* 全局批注按钮样式 */
+.global-floating-btn {
+    background-color: #E67E22 !important;
+}
+
+.global-floating-btn:hover {
+    background-color: #D35400 !important;
+}
+
+/* 按钮样式 - 添加图标支持 */
+.primary-btn i, .secondary-btn i {
+    margin-right: 8px;
+}
+
+/* 页脚设置区域独立样式 */
+.account-settings-section {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(209, 192, 165, 0.15);
+    margin-bottom: 25px;
+}
+
+.account-settings-section h2 {
+    margin-bottom: 15px;
+    color: #786450;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.5px;
+}
+
+.account-settings-section h2 i {
+    margin-right: 10px;
+    color: #E67E22;
+}
+
+.account-item {
+    padding: 12px 15px;
+    background-color: #FFF8EE;
+    border-radius: 8px;
+    border-left: 3px solid #E67E22;
+}
+
+.account-item label {
+    display: block;
+    color: #786450;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* 页脚样式 */
+#busuanzi_container_site_pv {
+    font-size: 14px;
+    color: #E67E22;
+  }
+  
+  #busuanzi_container_site_uv {
+    font-size: 14px;
+    color: #E67E22;
+  }
+  
+.contact-bar {
+    font-size: 14px;
+    color: #E67E22;
+  }

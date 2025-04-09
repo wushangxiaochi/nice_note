@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>知识卡片生成系统</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Phosphor 图标库 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.0.3/src/regular/style.min.css">
+    <!-- 添加QRCode.js库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- 备选CDN链接 -->
+    <script>
+    if (typeof QRCode !== 'function') {
+        document.write('<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"><\/script>');
+        console.log("尝试加载备选QRCode库");
+    }
+    </script>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 左侧区域：笔记输入和要点提炼 -->
+        <div class="left-panel">
+            <!-- 笔记输入区 -->
+            <div class="note-input-section">
+                <h2>📝 笔记输入</h2>
+                
+                <!-- 添加Tab导航 -->
+                <div class="input-tabs">
+                    <div class="tab-btn active" data-tab="note-tab">输入笔记</div>
+                    <div class="tab-btn" data-tab="url-tab">输入网址</div>
+                </div>
+                
+                <!-- 笔记输入Tab内容 -->
+                <div class="tab-content active" id="note-tab">
+                    <textarea id="note-input" placeholder="在此输入您的笔记内容..."></textarea>
+                    
+                    <!-- 添加网址输入框 -->
+                    <div class="additional-url-container">
+                        <label for="note-url-input">添加关联网址（可选）：</label>
+                        <input type="url" id="note-url-input" placeholder="输入与笔记相关的网址..." class="url-input">
+                    </div>
+                </div>
+                
+                <!-- 网址输入Tab内容 -->
+                <div class="tab-content" id="url-tab">
+                    <input type="url" id="url-input" placeholder="在此输入网址..." class="url-input">
+                </div>
+                
+                <button id="extract-btn" class="primary-btn"><i class="ph ph-magic-wand"></i>提炼内容要点</button>
+            </div>
+            
+            <!-- 自定义页脚名称区域（独立容器） -->
+            <div class="account-settings-section">
+                <h2><i class="ph ph-user-circle"></i>页脚设置</h2>
+                <div class="account-item">
+                    <label>自定义页脚名称：</label>
+                    <input type="text" id="account-name" class="account-input" value="请输入页脚名称" placeholder="输入您的页脚名称">
+                </div>
+            </div>
+            
+            <!-- 要点提炼区 -->
+            <div class="extraction-section">
+                <h2>🔍 要点提炼</h2>
+                
+                <div id="extraction-result" class="hidden">
+                    <!-- 标题 -->
+                    <div class="extraction-item">
+                        <label>标题：</label>
+                        <div contenteditable="true" id="extracted-title" class="editable-content"></div>
+                    </div>
+                    
+                    <!-- 关键洞见 -->
+                    <div class="extraction-item">
+                        <label>关键洞见：</label>
+                        <div contenteditable="true" id="extracted-insight" class="editable-content"></div>
+                    </div>
+                    
+                    <!-- 核心观点 -->
+                    <div class="extraction-item">
+                        <label>核心观点：</label>
+                        <div id="extracted-points">
+                            <!-- 动态生成的观点将插入这里 -->
+                        </div>
+                        <!-- 添加观点按钮 -->
+                        <button id="add-point-btn" class="secondary-btn">
+                            <i class="ph ph-plus"></i> 添加观点
+                        </button>
+                    </div>
+                    
+                    <button id="generate-card-btn" class="primary-btn"><i class="ph ph-note"></i>生成知识卡片</button>
+                </div>
+                
+                <div id="extraction-loading" class="hidden">
+                    <div class="loader"></div>
+                    <p>正在提炼要点，请稍候...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 右侧区域：卡片制作 -->
+        <div class="right-panel">
+            <div class="card">
+                <h2 id="card-title">知识卡片标题</h2>
+                
+                <p id="card-insight" class="highlight">关键洞见将显示在这里</p>
+                
+                <div id="card-points">
+                    <!-- 动态生成的卡片观点将插入这里 -->
+                </div>
+                
+                <!-- 添加卡片页脚 -->
+                <div class="card-footer">
+                    <div class="footer-left">
+                        <div class="account-avatar">
+                            <i class="ph ph-book-open-text"></i>
+                        </div>
+                        <div class="account-details">
+                            <div class="account-name">
+                                <span id="footer-account-name">自定义页脚名称</span>
+                            </div>
+                            <div class="slogan">盛世美言笔记</div>
+                        </div>
+                    </div>
+                    <div class="footer-right">
+                        <div id="url-qrcode" class="qrcode"></div>
+                    </div>
+                </div>
+
+                <div class="color-selector">
+                    <div class="color-btn" style="background-color:#FFFAF0" onclick="changeBackground('#FFFAF0')"></div>
+                    <div class="color-btn" style="background-color:#485679" onclick="changeBackground('#485679')"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 先加载主入口文件 -->
+    <script src="main.js"></script>
+    
+    <!-- 加载拆分后的模块文件 -->
+    <script src="annotationSystem.js"></script>
+    <script src="uiComponents.js"></script>
+    <script src="layoutManager.js"></script>
+    <script src="downloadManager.js"></script>
+    
+    <!-- 加载其他功能模块 -->
+    <script src="noteProcessor.js"></script>
+    <script src="cardGenerator.js"></script>
+
+    <!--添加页脚计算浏览量-->
+    <footer>
+        <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+        <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+        <span class="contact-bar">小红书id 953286293</span>
+    </footer>
+</body>
+</html>
