@@ -66,6 +66,19 @@ function adjustCardContainer() {
 
 // 将所有添加批注按钮移到卡片外部
 function moveAnnotationButtonsOutside() {
+    // 先清除已存在的容器和按钮
+    const existingContainer = document.querySelector('.annotation-buttons-container');
+    if (existingContainer) {
+        existingContainer.remove();
+    }
+    
+    // 清除所有浮动按钮，排除全局批注按钮
+    document.querySelectorAll('.floating-note-btn').forEach(btn => {
+        if (btn && btn.id !== 'global-annotation-btn') {
+            btn.remove();
+        }
+    });
+    
     // 创建批注按钮容器
     const buttonContainer = document.createElement('div');
     buttonContainer.className = 'annotation-buttons-container';
@@ -76,7 +89,12 @@ function moveAnnotationButtonsOutside() {
     
     // 为每个小标题创建一个外部批注按钮
     subtitles.forEach((subtitle, index) => {
-        const subtitleRect = subtitle.getBoundingClientRect();
+        // 确保不创建重复的按钮
+        const existingButton = document.getElementById(`annotation-btn-${index}`);
+        if (existingButton) {
+            existingButton.remove();
+        }
+        
         const buttonId = `annotation-btn-${index}`;
         
         // 创建按钮
@@ -104,6 +122,7 @@ function moveAnnotationButtonsOutside() {
     addFloatingButtonStyles();
 }
 
+
 // 添加整体批注按钮
 function addGlobalAnnotationButton() {
     // 获取卡片元素
@@ -118,8 +137,13 @@ function addGlobalAnnotationButton() {
     // 将整体批注容器插入到卡片的最末尾
     card.appendChild(globalAnnotationContainer);
     
-    // 创建外部浮动批注按钮
-    const buttonContainer = document.querySelector('.annotation-buttons-container') || document.body;
+    // 首先检查并移除任何现有的全局批注按钮
+    const existingButton = document.getElementById('global-annotation-btn');
+    if (existingButton) {
+        existingButton.remove();
+    }
+    
+    // 创建全局批注按钮
     const globalButton = document.createElement('button');
     globalButton.className = 'floating-note-btn global-floating-btn';
     globalButton.innerHTML = '+';
@@ -133,12 +157,16 @@ function addGlobalAnnotationButton() {
     globalButton.style.borderColor = '#E67E22';
     globalButton.style.color = 'white';
     globalButton.style.boxShadow = '0 4px 8px rgba(230, 126, 34, 0.4)';
+    globalButton.style.position = 'absolute';
     
     // 计算按钮位置
-    updateGlobalButtonPosition(globalButton, card);
+    const rect = card.getBoundingClientRect();
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    globalButton.style.top = (rect.bottom + scrollTop - 40) + 'px';
+    globalButton.style.left = (rect.left - 40) + 'px';
     
-    // 添加到容器
-    buttonContainer.appendChild(globalButton);
+    // 直接将按钮添加到body，而不是添加到容器中
+    document.body.appendChild(globalButton);
     
     // 添加全局批注样式
     const styleEl = document.createElement('style');
@@ -153,7 +181,7 @@ function addGlobalAnnotationButton() {
         }
         
         .global-floating-btn:hover {
-            background-color: #E67E22 !important;
+            background-color: #D35400 !important;
         }
     `;
     document.head.appendChild(styleEl);
