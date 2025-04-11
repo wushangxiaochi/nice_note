@@ -18,3 +18,5 @@
 
 🤜立即体验 https://wushangxiaochi.github.io/nice_note/
 🎉让你的分享自带高级感与思想力！
+
+小红书id： 953286293
